@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
-using WebApplication1.Models;
+using WebApplication1.UniversityModels;
 
 namespace WebApplication1.Controllers
 {
     public class crsResultsController : Controller
     {
-        private readonly Data.ApplicationDbContext _context;
+        private readonly UniversityModels.UniversityContext _context;
 
-        public crsResultsController(Data.ApplicationDbContext context)
+        public crsResultsController(UniversityModels.UniversityContext context)
         {
             _context = context;
         }
@@ -22,7 +23,7 @@ namespace WebApplication1.Controllers
         // GET: crsResults
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.crsResult.Include(c => c.Course).Include(c => c.Trainee);
+            var applicationDbContext = _context.CrsResults.Include(c => c.Course).Include(c => c.Trainee);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -34,7 +35,7 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var crsResult = await _context.crsResult
+            var crsResult = await _context.CrsResults
                 .Include(c => c.Course)
                 .Include(c => c.Trainee)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -59,7 +60,7 @@ namespace WebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Degree,CourseId,TraineeId")] crsResult crsResult)
+        public async Task<IActionResult> Create([Bind("Id,Degree,CourseId,TraineeId")] CrsResult crsResult)
         {
             _context.Add(crsResult);
             await _context.SaveChangesAsync();
@@ -76,7 +77,7 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var crsResult = await _context.crsResult.FindAsync(id);
+            var crsResult = await _context.CrsResults.FindAsync(id);
             if (crsResult == null)
             {
                 return NotFound();
@@ -91,7 +92,7 @@ namespace WebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Degree,CourseId,TraineeId")] crsResult crsResult)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Degree,CourseId,TraineeId")] CrsResult crsResult)
         {
             if (id != crsResult.Id)
             {
@@ -127,7 +128,7 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var crsResult = await _context.crsResult
+            var crsResult = await _context.CrsResults
                 .Include(c => c.Course)
                 .Include(c => c.Trainee)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -144,10 +145,10 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var crsResult = await _context.crsResult.FindAsync(id);
+            var crsResult = await _context.CrsResults.FindAsync(id);
             if (crsResult != null)
             {
-                _context.crsResult.Remove(crsResult);
+                _context.CrsResults.Remove(crsResult);
             }
 
             await _context.SaveChangesAsync();
@@ -156,7 +157,7 @@ namespace WebApplication1.Controllers
 
         private bool crsResultExists(int id)
         {
-            return _context.crsResult.Any(e => e.Id == id);
+            return _context.CrsResults.Any(e => e.Id == id);
         }
     }
 }

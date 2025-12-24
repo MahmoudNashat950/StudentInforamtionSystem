@@ -4,15 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
-using WebApplication1.Models;
+
+using WebApplication1.UniversityModels;
 
 namespace WebApplication1.Controllers
 {
     public class InstructorsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly UniversityModels.UniversityContext _context;
 
-        public InstructorsController(ApplicationDbContext context)
+        public InstructorsController(UniversityModels.UniversityContext context)
         {
             _context = context;
         }

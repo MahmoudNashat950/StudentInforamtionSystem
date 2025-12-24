@@ -13,12 +13,7 @@ namespace WebApplication1.Data
         {
         }
 
-        // DbSets for your models
-        public DbSet<Department>? Departments { get; set; }
-        public DbSet<Instructor>? Instructors { get; set; }
-        public DbSet<Trainee>? Trainees { get; set; }
-        public DbSet<Course>? Courses { get; set; }
-        public DbSet<crsResult>? crsResult { get; set; }
+       
         public DbSet<Account>? Accounts { get; set; }
 
         // Optional: Override OnConfiguring if not using dependency injection

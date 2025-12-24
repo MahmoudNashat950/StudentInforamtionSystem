@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using WebApplication1.Models;
+using WebApplication1.UniversityModels;
 
 public class TraineesController : Controller
 {
-    private readonly WebApplication1.Data.ApplicationDbContext _context;
+    private readonly UniversityContext _context;
 
-    public TraineesController(WebApplication1.Data.ApplicationDbContext context)
+    public TraineesController(UniversityContext context)
     {
         _context = context;
     }

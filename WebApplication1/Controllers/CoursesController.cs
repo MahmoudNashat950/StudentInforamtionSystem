@@ -5,16 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
-using WebApplication1.Models;
+using WebApplication1.UniversityModels;
 
 namespace WebApplication1.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly Data.ApplicationDbContext _context;
+        private readonly UniversityModels.UniversityContext _context;
 
-        public CoursesController(Data.ApplicationDbContext context)
+        public CoursesController(UniversityModels.UniversityContext context)
         {
             _context = context;
         }

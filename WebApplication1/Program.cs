@@ -1,14 +1,15 @@
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 using WebApplication1.Models;
+using WebApplication1.UniversityModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register ApplicationDbContext
+// --------------------
+// 1. Register ApplicationDbContext (Identity)
+// --------------------
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDbContext")));
 
@@ -21,14 +22,26 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddDefaultUI()
 .AddDefaultTokenProviders();
 
-// Add Razor Pages and Controllers
+// --------------------
+// 2. Register UniversityContext (DB First)
+// --------------------
+builder.Services.AddDbContext<UniversityContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("UniversityContext")));
+
+// --------------------
+// 3. Add Razor Pages and Controllers
+// --------------------
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
-// Register IEmailSender implementation
+// --------------------
+// 4. Email sender (optional)
+// --------------------
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-// Logging
+// --------------------
+// 5. Logging
+// --------------------
 builder.Services.AddLogging(logging =>
 {
     logging.ClearProviders();
@@ -38,7 +51,9 @@ builder.Services.AddLogging(logging =>
 
 var app = builder.Build();
 
-// Configure Middleware
+// --------------------
+// 6. Middleware configuration
+// --------------------
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -52,7 +67,6 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
 
 app.UseAuthentication();
 app.UseAuthorization();

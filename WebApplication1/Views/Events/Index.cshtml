@@ -1,0 +1,25 @@
+﻿@model IEnumerable<WebApplication1.UniversityModels.Event>
+
+<h2>Announcements</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Create Announcement</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.EventName</td>
+                <td>@a.Description</td>
+                <td>@a.EventDate.ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

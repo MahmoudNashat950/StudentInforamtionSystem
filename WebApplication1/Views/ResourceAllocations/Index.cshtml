@@ -1,0 +1,23 @@
+﻿@model IEnumerable<WebApplication1.UniversityModels.ResourceAllocation>
+
+<h2>Resource Allocations</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Resource</th>
+            <th>Allocated To</th>
+            <th> Date</th>
+          
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.Resource.ResourceName</td>
+                <td>@r.AllocatedToId</td>
+                <td>@r.AllocationDate.ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

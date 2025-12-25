@@ -503,4 +503,7 @@ public partial class UniversityContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+
+
 }

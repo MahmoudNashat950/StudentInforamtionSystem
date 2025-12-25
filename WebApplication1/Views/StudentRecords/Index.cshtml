@@ -1,0 +1,25 @@
+﻿@model IEnumerable<WebApplication1.UniversityModels.Trainee>
+
+<h2>Student Records</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Department</th>
+         
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.Name</td>
+                <td>@student.DepartmentId</td>
+                <td>
+                    <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@student.Id">Details</a>
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@student.Id">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

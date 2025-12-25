@@ -1,0 +1,18 @@
+﻿@model WebApplication1.UniversityModels.AdmissionApplication
+
+<h2>Apply for Admission</h2>
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="StudentName"></label>
+        <input asp-for="StudentName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="NationalId"></label>
+        <input asp-for="NationalId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="NationalId"></label>
+        <select asp-for="NationalId" class="form-control" asp-items="@(new SelectList(ViewBag.Departments, "Id", "Name"))"></select>
+    </div>
+    <button type="submit" class="btn btn-success">Submit Application</button>
+</form>

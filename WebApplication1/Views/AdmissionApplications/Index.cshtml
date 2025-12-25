@@ -1,0 +1,26 @@
+﻿@model IEnumerable<WebApplication1.UniversityModels.AdmissionApplication>
+
+<h2>Admission Applications</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var app in Model)
+        {
+            <tr>
+                <td>@app.StudentName</td>
+                <td>@app.ApplicationStatus</td>
+                <td>@app.SubmissionDate</td>
+
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@app.ApplicationId">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,11 +1,4 @@
-﻿<div class="container mt-5">
-    <h1 class="display-4">Student Dashboard</h1>
-    <p>Welcome, @(User.Identity.Name.Split('@')[0])!</p>
-
-    <p class="lead">Explore available courses, department info, and classroom availability.</p>
-</div>
-
-<div class="row justify-content-center my-4">
+﻿<div class="row justify-content-center my-4">
     <div class="col-md-3 mb-2">
         <a class="btn btn-primary btn-lg btn-block" href="@Url.Action("Index", "Courses")">View Courses</a>
     </div>
@@ -16,7 +9,15 @@
         <a class="btn btn-outline-success btn-lg btn-block" href="@Url.Action("Index", "crsResults")">View Grades</a>
     </div>
     <div class="col-md-3 mb-2">
-        <a class="btn btn-outline-success btn-lg btn-block" href="@Url.Action("Index", "RoomReservations")">View Schedule </a>
+        <a class="btn btn-outline-success btn-lg btn-block" href="@Url.Action("Index", "RoomReservations")">View Schedule</a>
     </div>
-  
+    <div class="col-md-3 mb-2">
+        <a class="btn btn-outline-warning btn-lg btn-block" href="@Url.Action("Index", "MaintenanceRequests")">View Maintenance</a>
+    </div>
+    <div class="col-md-3 mb-2">
+        <a class="btn btn-outline-info btn-lg btn-block" href="@Url.Action("Index", "Transcripts")">View Transcripts</a>
+    </div>
+    <div class="col-md-3 mb-2">
+        <a class="btn btn-outline-secondary btn-lg btn-block" href="@Url.Action("Index", "ResourceAllocations")">View Allocated Resources</a>
+    </div>
 </div>

@@ -1,0 +1,21 @@
+﻿@model IEnumerable<WebApplication1.UniversityModels.Transcript>
+
+<h2>Transcripts</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Generated Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.Student?.Name</td>
+                <td>@t.GeneratedDate?.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
+    </tbody>
+</table>

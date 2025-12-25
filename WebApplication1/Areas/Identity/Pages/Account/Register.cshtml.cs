@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using WebApplication1.Models; // Replace with your actual namespace
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
+using WebApplication1.Models; // Replace with your namespace
 
 namespace WebApplication1.Areas.Identity.Pages.Account
 {
@@ -13,10 +16,10 @@ namespace WebApplication1.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
-        private IEmailSender _emailSender;
 
-
-        public RegisterModel(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<RegisterModel> logger)
+        public RegisterModel(UserManager<ApplicationUser> userManager,
+                             RoleManager<IdentityRole> roleManager,
+                             ILogger<RegisterModel> logger)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -28,66 +31,63 @@ namespace WebApplication1.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
+            [Required, EmailAddress, Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
-            [DataType(DataType.Password)]
-            [Display(Name = "Password")]
-           // [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$", 
-             //   ErrorMessage = "Password must be at least 8 characters long and contain at least one letter and one number.")]
+            [Required, DataType(DataType.Password), Display(Name = "Password")]
             public string Password { get; set; }
 
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [DataType(DataType.Password), Display(Name = "Confirm password")]
+            [Compare("Password", ErrorMessage = "Passwords do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
             [Display(Name = "Role")]
-            public string Role { get; set; }
+            public string SelectedRole { get; set; }
         }
+
+        public IEnumerable<SelectListItem> Roles { get; set; }
 
         public async Task OnGetAsync()
         {
-            // This should be moved to application startup (e.g., in Program.cs or Startup.cs).
-            if (!await _roleManager.RoleExistsAsync("Admin"))
+            // Available roles
+            Roles = new List<SelectListItem>
             {
-                await _roleManager.CreateAsync(new IdentityRole("Admin"));
-            }
-            if (!await _roleManager.RoleExistsAsync("Student"))
+                new SelectListItem("Admin","Admin"),
+                new SelectListItem("Student","Student"),
+                new SelectListItem("Staff","Staff")
+            };
+
+            // Ensure roles exist
+            foreach (var role in new[] { "Admin", "Student", "Staff" })
             {
-                await _roleManager.CreateAsync(new IdentityRole("Student"));
+                if (!await _roleManager.RoleExistsAsync(role))
+                    await _roleManager.CreateAsync(new IdentityRole(role));
             }
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return Page();
+
+            var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+            var result = await _userManager.CreateAsync(user, Input.Password);
+
+            if (result.Succeeded)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                // Assign role (default = Student)
+                var role = string.IsNullOrEmpty(Input.SelectedRole) ? "Student" : Input.SelectedRole;
+                await _userManager.AddToRoleAsync(user, role);
 
-                if (result.Succeeded)
-                {
-                    // Generate email confirmation token
-                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var confirmationLink = Url.Page("/Account/ConfirmEmail", pageHandler: null, values: new { userId = user.Id, token = token }, protocol: Request.Scheme);
+                // Automatically confirm email
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                await _userManager.ConfirmEmailAsync(user, token);
 
-
-                    await _userManager.AddToRoleAsync(user, Input.Role);
-
-                    _logger.LogInformation("User registered successfully. Confirmation email sent.");
-                    return RedirectToPage("/Account/Login");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                _logger.LogInformation("User registered successfully.");
+                return RedirectToPage("/Account/Login");
             }
+
+            foreach (var error in result.Errors)
+                ModelState.AddModelError(string.Empty, error.Description);
 
             return Page();
         }

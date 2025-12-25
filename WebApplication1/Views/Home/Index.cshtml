@@ -10,25 +10,24 @@
     <div class="row">
         <div class="col-md-12 text-center">
             <h1 class="display-4">Welcome to Ain Shams University</h1>
+
             @if (User.Identity.IsAuthenticated)
             {
-                <p class="lead">
-                <p>Hello, @(User.Identity.Name.Split('@')[0])!</p>
+                <p class="lead">Hello, @(User.Identity.Name.Split('@')[0])!</p>
+
                 <a class="btn btn-primary" asp-controller="Admin" asp-action="Dashboard" role="button">Admin Dashboard</a>
                 <a class="btn btn-success" asp-controller="Student" asp-action="Dashboard" role="button">Student Dashboard</a>
-
-                </p>
+                <a class="btn btn-warning" asp-controller="Instructors" asp-action="Dashboard" role="button">Instructor Dashboard</a>
             }
             else
             {
                 <p class="lead">Please log in to explore our programs.</p>
             }
+
             <p class="lead">Explore our programs and find the right course for you.</p>
         </div>
     </div>
 
-
-   
     @if (!User.Identity.IsAuthenticated)
     {
         <div class="row justify-content-center mt-5">

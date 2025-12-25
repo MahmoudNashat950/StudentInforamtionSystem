@@ -1,0 +1,13 @@
+﻿@model WebApplication1.UniversityModels.MaintenanceRequest
+
+<h2>Report Maintenance Issue</h2>
+
+<form method="post">
+    <label>Classroom</label>
+    <select asp-for="ClassroomId" asp-items="ViewBag.ClassroomId"></select>
+
+    <label>Description</label>
+    <input asp-for="IssueDescription" class="form-control" />
+
+    <button type="submit" class="btn btn-danger">Report</button>
+</form>

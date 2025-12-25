@@ -1,0 +1,34 @@
+﻿@model IEnumerable<WebApplication1.UniversityModels.RoomReservation>
+
+<h2>Room Reservations</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Room</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Purpose</th>
+            <th>Reserved By</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Classroom.RoomNumber</td>
+                <td>@item.StartTime</td>
+                <td>@item.EndTime</td>
+                <td>@item.Purpose</td>
+                <td>@item.ReservedBy</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+{
+    <a class="btn btn-primary mb-3" asp-action="Create">Create New Reservation</a>
+}
+
+

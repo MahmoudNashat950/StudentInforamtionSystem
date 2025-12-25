@@ -13,6 +13,7 @@ namespace WebApplication1.Controllers
             _userManager = userManager;
         }
 
+     
         public async Task<IActionResult> Index()
         {
             // Check if the user is authenticated

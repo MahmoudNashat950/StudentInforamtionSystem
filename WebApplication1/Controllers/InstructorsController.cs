@@ -1,14 +1,16 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 using WebApplication1.Data;
-
 using WebApplication1.UniversityModels;
+
 
 namespace WebApplication1.Controllers
 {
+    [Authorize(Roles = "Staff")]
     public class InstructorsController : Controller
     {
         private readonly UniversityModels.UniversityContext _context;
@@ -16,6 +18,12 @@ namespace WebApplication1.Controllers
         public InstructorsController(UniversityModels.UniversityContext context)
         {
             _context = context;
+        }
+
+
+        public IActionResult Dashboard()
+        {
+            return View();
         }
 
         // GET: Instructors
@@ -46,6 +54,9 @@ namespace WebApplication1.Controllers
 
             return View(instructor);
         }
+
+    
+
 
         // GET: Instructors/Create
         public IActionResult Create()

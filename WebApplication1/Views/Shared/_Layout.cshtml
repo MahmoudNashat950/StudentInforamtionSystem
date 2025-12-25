@@ -7,50 +7,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Site Title -->
     <title>@ViewData["Title"] - Ainshams</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/bootstrap.min.css")">
-
-    <!-- Custom Style CSS -->
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/style.css")">
-
-    <!-- Responsive Styles -->
+    <link rel="stylesheet" href="@Url.Content("~/css/bootstrap.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/style.css")">
     <link rel="stylesheet" href="@Url.Content("~/css/responsive.css")">
-
-    <!-- Favicon -->
     <link rel="icon" href="@Url.Content("~/Images/A.png")" type="image/gif">
-
-    <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="@Url.Content("~/css/jquery.mCustomScrollbar.min.css")">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-
-    <!-- Owl Stylesheets -->
     <link rel="stylesheet" href="@Url.Content("~/css/owl.carousel.min.css")">
     <link rel="stylesheet" href="@Url.Content("~/css/owl.theme.default.min.css")">
 
-    <!-- Custom CSS -->
     <style type="text/css">
-        /* Transparent header */
         .header_section {
             background-color: transparent;
         }
 
-        /* Transparent navbar */
         .navbar {
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 15px 30px;
-            background-color: transparent; /* No background */
-            border: none; /* Remove any border */
+            background-color: transparent;
+            border: none;
         }
 
         .logo {
-            background-color: transparent;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -58,39 +40,30 @@
         }
 
             .logo img {
-                background-color: transparent; /* No background */
-                border: none; /* Remove any border */
                 width: 120px;
                 height: auto;
+                background-color: transparent;
+                border: none;
             }
 
-        /* Background image */
         .banner_section {
-            background-image: url('@Url.Content("~/Images/Img.png")'); /* Updated image path */
+            background-image: url('@Url.Content("~/Images/Img.png")');
             background-size: cover;
             background-position: center;
-            padding: 40px 0; /* Adjust padding as needed */
-            color: #fff; /* Optional: ensure text is readable */
-        }
-
-        /* Responsive adjustments */
-       
-
-        .banner_section {
             padding: 20px 0;
+            color: #fff;
         }
 
         .banner_text {
-            font-size: 1.5rem; /* Adjust for smaller screens */
+            font-size: 1.5rem;
         }
 
         .banner_taital {
-            font-size: 2rem; /* Adjust for smaller screens */
-        }
-
+            font-size: 2rem;
         }
     </style>
 </head>
+
 
 <body>
     <!-- Header Section Start -->
@@ -138,6 +111,6 @@
         </div>
     </footer>
 
-    
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

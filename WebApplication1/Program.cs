@@ -36,7 +36,16 @@ builder.Services.AddControllersWithViews();
 // --------------------
 // 4. Email sender (optional)
 // --------------------
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+//builder.Services.AddSingleton<IEmailSender, FakeEmailSender>();
+
+
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/"; // redirect to home
+});
+
+
 
 // --------------------
 // 5. Logging
@@ -49,6 +58,46 @@ builder.Services.AddLogging(logging =>
 });
 
 var app = builder.Build();
+
+// Seed roles and example assignment
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await SeedRolesAsync(services);
+}
+
+async Task SeedRolesAsync(IServiceProvider services)
+{
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetService<UserManager<ApplicationUser>>();
+
+    // Add roles you need here
+    var roles = new[] { "Instructor" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            var result = await roleManager.CreateAsync(new IdentityRole(role));
+            if (!result.Succeeded)
+            {
+                // Optionally log result.Errors
+            }
+        }
+    }
+
+    // Optional: assign an existing user to the Instructor role by email.
+    // Replace the email with a real user that exists in your database.
+    if (userManager is not null)
+    {
+        var instructorEmail = "instructor@example.com";
+        var user = await userManager.FindByEmailAsync(instructorEmail);
+        if (user is not null && !await userManager.IsInRoleAsync(user, "Instructor"))
+        {
+            await userManager.AddToRoleAsync(user, "Instructor");
+        }
+    }
+}
 
 // --------------------
 // 6. Middleware configuration

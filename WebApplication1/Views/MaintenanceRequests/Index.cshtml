@@ -1,0 +1,22 @@
+﻿@model IEnumerable<WebApplication1.UniversityModels.MaintenanceRequest>
+
+<h2>Maintenance Requests</h2>
+
+<table class="table">
+    <tr>
+        <th>Room</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Date</th>
+    </tr>
+
+    @foreach (var m in Model)
+    {
+        <tr>
+            <td>@m.Classroom.RoomNumber</td>
+            <td>@m.IssueDescription</td>
+            <td>@m.Status</td>
+            <td>@m.ReportedDate</td>
+        </tr>
+    }
+</table>

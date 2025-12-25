@@ -1,0 +1,29 @@
+﻿@model IEnumerable<WebApplication1.UniversityModels.RoomReservation>
+
+<h2>Room Schedule</h2>
+
+<table class="table">
+    <tr>
+        <th>Start</th>
+        <th>End</th>
+        <th>Purpose</th>
+        <th>Reserved By</th>
+    </tr>
+
+    @foreach (var r in Model)
+    {
+        <tr>
+            <td>@r.StartTime</td>
+            <td>@r.EndTime</td>
+            <td>@r.Purpose</td>
+            <td>@r.ReservedBy</td>
+        </tr>
+    }
+</table>
+<a asp-controller="RoomReservations"
+   asp-action="Create"
+   asp-route-classroomId="@ViewBag.Room.ClassroomId"
+   class="btn btn-success">
+    Reserve This Room
+</a>
+
